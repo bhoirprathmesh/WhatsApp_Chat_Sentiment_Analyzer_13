@@ -142,3 +142,23 @@ def activity_heatmap(selected_user,df):
     user_heatmap = df.pivot_table(index='day_name', columns='period', values='message', aggfunc='count').fillna(0)
 
     return user_heatmap
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+def sentiment_analysis(df, selected_user):
+    if selected_user != "Overall":
+        df = df[df['user'] == selected_user]
+    
+    sid = SentimentIntensityAnalyzer()
+    df['positive'] = df['message'].apply(lambda x: sid.polarity_scores(str(x))['pos'])
+    df['negative'] = df['message'].apply(lambda x: sid.polarity_scores(str(x))['neg'])
+    df['neutral']  = df['message'].apply(lambda x: sid.polarity_scores(str(x))['neu'])
+
+    # Aggregate sentiment values
+    sentiment_sums = {
+        'Positive': df['positive'].sum(),
+        'Negative': df['negative'].sum(),
+        'Neutral' : df['neutral'].sum()
+    }
+    
+    return sentiment_sums, df
