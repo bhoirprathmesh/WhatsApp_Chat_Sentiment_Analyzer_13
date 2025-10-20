@@ -80,6 +80,8 @@ Visit http://localhost:8501
 
 ![Analysis](screenshot/s5.png)
 
+![Analysis](screenshot/s6.png)
+
 ---
 
 ## 🎥 Demo
